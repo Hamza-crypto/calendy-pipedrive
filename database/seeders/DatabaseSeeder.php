@@ -20,5 +20,30 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+
+        $stages = [
+            [
+                'stage_id' => 6,
+                'name' => 'Lead In',
+                'sms' => 'Hello from Pipedrive for Lead In',
+                'voice' => 'Hello from Pipedrive'
+            ],
+            [
+                'stage_id' => 7,
+                'name' => 'Contact Made',
+                'sms' => 'Hello from Pipedrive for Contact Made',
+                'voice' => 'Hello from Pipedrive'
+            ],
+            [
+                'stage_id' => 8,
+                'name' => 'Property Evaluated',
+                'sms' => null,
+                'voice' => 'Hello from Pipedrive'
+            ],
+        ];
+
+        foreach ($stages as $stage) {
+            \App\Models\Stage::create($stage);
+        }
     }
 }

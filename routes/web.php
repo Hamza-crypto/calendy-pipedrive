@@ -1,7 +1,12 @@
 <?php
 
+use App\Http\Controllers\DatatableController;
 use App\Http\Controllers\MeetingController;
+use App\Http\Controllers\TwilioController;
+use App\Http\Controllers\WebhookController;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
+use Spatie\SlackAlerts\Facades\SlackAlert;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,9 +21,35 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+
+
 });
 
-Route::controller(MeetingController::class)->group(function () {
-    Route::post('/calendly/webhook', 'store');
-    Route::get('/calendly/test', 'test');
+Route::get('/test2', function () {
+    dd('This is Hamza');
+
 });
+
+Route::get('/test', function () {
+
+    SlackAlert::message('Hi there');
+
+
+});
+
+Route::controller(WebhookController::class)->group(function () {
+    Route::get('tasks', 'index');
+    Route::post('pipedrive/webhook', 'store');
+
+    //Facebook Webhook
+    Route::get('facebook/webhook', 'facebook');
+    Route::post('facebook/webhook', 'facebook');
+});
+
+Route::controller(TwilioController::class)->group(function () {
+    Route::get('send_sms', 'send_sms');
+    Route::post('sms_status', 'sms_status');
+
+});
+
+Route::get('api/v1/tasks', [DatatableController::class, 'tasks'])->name('tasks.ajax');
