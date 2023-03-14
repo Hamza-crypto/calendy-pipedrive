@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('sms_status')->nullable();
             $table->string('sms_id')->nullable();
             $table->string('vm_status')->nullable();
-            $table->string('vm_id')->nullable();
+            $table->string('vm_reason')->nullable();
             $table->string('status')->nullable();
             $table->timestamps();
         });

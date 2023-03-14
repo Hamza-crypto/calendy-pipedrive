@@ -3,6 +3,7 @@
 use App\Http\Controllers\DatatableController;
 use App\Http\Controllers\MeetingController;
 use App\Http\Controllers\TwilioController;
+use App\Http\Controllers\VoicemailController;
 use App\Http\Controllers\WebhookController;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
@@ -22,16 +23,9 @@ use Spatie\SlackAlerts\Facades\SlackAlert;
 Route::get('/', function () {
     return view('welcome');
 
-
 });
 
 Route::get('/test2', function () {
-    dd('This is Hamza');
-
-});
-
-Route::get('/test', function () {
-    SlackAlert::message('This is a test message from Hamza');
 
 });
 
@@ -47,7 +41,11 @@ Route::controller(WebhookController::class)->group(function () {
 Route::controller(TwilioController::class)->group(function () {
     Route::get('send_sms', 'send_sms');
     Route::post('sms_status', 'sms_status');
+});
 
+Route::controller(VoicemailController::class)->group(function () {
+    Route::get('send_sms', 'send_vm');
+    Route::post('vm_status', 'vm_status');
 });
 
 Route::get('api/v1/tasks', [DatatableController::class, 'tasks'])->name('tasks.ajax');

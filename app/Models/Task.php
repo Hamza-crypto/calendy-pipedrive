@@ -10,6 +10,19 @@ class Task extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'phone',
+        'stage',
+        'sms_id',
+        'sms_status',
+        'vm_id',
+        'vm_status',
+        'status',
+        'vm_reason'
+    ];
+
+
     public function scopeFilters($query, $filters)
     {
         if (isset($filters['stage']) && $filters['stage'] != -100) {

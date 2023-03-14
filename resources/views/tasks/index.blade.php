@@ -46,8 +46,8 @@
                     {"data": "stage"},
                     {"data": "sms_id"},
                     {"data": "sms_status"},
-                    {"data": "vm_id"},
                     {"data": "vm_status"},
+                    {"data": "vm_reason"},
                     {"data": "status"},
                     {"data": "created_at2"}
 
@@ -168,8 +168,8 @@
                             <th>Stage</th>
                             <th>Twilio ID</th>
                             <th>SMS Status</th>
-                            <th>VM ID</th>
                             <th>VM Status</th>
+                            <th>Reason</th>
                             <th>Status</th>
                             <th>Created at</th>
                         </tr>

@@ -15,12 +15,31 @@ class PipedriveController extends Controller
         $response = $response->json();
 
         $email = $response['data']['primary_email'];
-        $phone= $response['data']['phone'][0]['value'];
+        $phone = $response['data']['phone'][0]['value'];
 
         return [
             'email' => $email,
-            'phone' => $phone
+            'phone' => $this->formatPhoneNumberToE164($phone)
         ];
+    }
+
+    function formatPhoneNumberToE164($phoneNumber, $defaultCountryCode = '1')
+    {
+        // Remove all non-numeric characters from the phone number.
+        $phoneNumber = preg_replace('/[^0-9]/', '', $phoneNumber);
+
+        // If the phone number starts with a plus sign, remove it.
+        if (strpos($phoneNumber, '+') === 0) {
+            $phoneNumber = substr($phoneNumber, 1);
+        }
+
+        // If the phone number doesn't start with the default country code, add it.
+        if (strpos($phoneNumber, $defaultCountryCode) !== 0) {
+            $phoneNumber = $defaultCountryCode . $phoneNumber;
+        }
+
+        // Return the phone number in E.164 format.
+        return '+' . $phoneNumber;
     }
 
 }

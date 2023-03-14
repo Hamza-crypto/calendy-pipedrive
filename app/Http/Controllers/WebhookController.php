@@ -13,10 +13,9 @@ class WebhookController extends Controller
         $stages = Stage::select('stage_id', 'name')->get();
         return view('tasks.index', compact('stages'));
     }
+
     public function store(Request $request)
     {
-        app()->log->info($request->all());
-
         $person_id = $request->current['person_id'];
 
         $current_stage = $request->current['stage_id'];
@@ -30,6 +29,7 @@ class WebhookController extends Controller
 
         $pipedrive = new PipedriveController();
         $person = $pipedrive->find_person($person_id);
+
 
 //        if($person['email'] != env('MAIL_FROM_ADDRESS')){
 //            return;
@@ -52,7 +52,11 @@ class WebhookController extends Controller
         }
 
         if($stage->voice){
-            //send voice mail
+            $voicemail = new VoicemailController();
+            $voicemail->send_vm($person['phone'], $stage->voice, $task->id);
+
+            $task->vm_status = 'queued';
+            $task->save();
         }
 
     }

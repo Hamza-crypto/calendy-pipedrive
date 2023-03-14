@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
+use App\Models\Webhooks;
 use Exception;
 use Illuminate\Http\Request;
 use Twilio\Exceptions\ConfigurationException;
@@ -40,9 +41,10 @@ class TwilioController extends Controller
 
     public function sms_status(Request $request)
     {
-        app()->log->info($request->all());
         $status = $request->MessageStatus;
         if($status == 'sent') return;
+
+        app('log')->channel('twilio_webhook')->info($request->all());
 
         $sid = $request->MessageSid;
 
@@ -55,5 +57,7 @@ class TwilioController extends Controller
             'message' => 'SMS status updated'
         ]);
     }
+
+
 
 }

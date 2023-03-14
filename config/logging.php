@@ -117,6 +117,16 @@ return [
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
         ],
+
+        'twilio_webhook' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/twilio_webhook.log'),
+        ],
+
+        'vm_webhook' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/vm_webhook.log'),
+        ],
     ],
 
 ];
