@@ -168,8 +168,8 @@
                             <th>Stage</th>
                             <th>Twilio ID</th>
                             <th>SMS Status</th>
-                            <th>Voicemail ID</th>
-                            <th>Voicemail Status</th>
+                            <th>VM ID</th>
+                            <th>VM Status</th>
                             <th>Status</th>
                             <th>Created at</th>
                         </tr>

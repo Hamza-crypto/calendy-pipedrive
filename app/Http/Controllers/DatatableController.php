@@ -36,7 +36,7 @@ class DatatableController extends Controller
 
 
         if (empty($request->input('search.value'))) {
-            $tasks = Task::with('stage')->filters($request->all());
+            $tasks = Task::filters($request->all());
 
             $tasks = $tasks->orderBy($orderDbColumn, $orderDirection);
 
@@ -44,7 +44,7 @@ class DatatableController extends Controller
 
         } else {
             $search = $request->input('search.value');
-            $tasks = Task::with('stage')->filters($request->all());
+            $tasks = Task::filters($request->all());
             $tasks = $tasks->where(function ($q1) use ($search) {
                 $q1->where('email', 'LIKE', "%$search%")
                     ->orWhere('phone', 'LIKE', "%$search%");

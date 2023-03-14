@@ -31,9 +31,7 @@ Route::get('/test2', function () {
 });
 
 Route::get('/test', function () {
-
-    SlackAlert::message('Hi there');
-
+    SlackAlert::message('This is a test message from Hamza');
 
 });
 

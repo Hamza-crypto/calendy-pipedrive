@@ -15,7 +15,9 @@ class WebhookController extends Controller
     }
     public function store(Request $request)
     {
-        $person_id = $request->meta['id'];
+        app()->log->info($request->all());
+
+        $person_id = $request->current['person_id'];
 
         $current_stage = $request->current['stage_id'];
         $previous_stage = $request->previous['stage_id'];
@@ -28,6 +30,10 @@ class WebhookController extends Controller
 
         $pipedrive = new PipedriveController();
         $person = $pipedrive->find_person($person_id);
+
+//        if($person['email'] != env('MAIL_FROM_ADDRESS')){
+//            return;
+//        }
 
         $task = new Task();
         $task->email = $person['email'];

@@ -40,8 +40,11 @@ class TwilioController extends Controller
 
     public function sms_status(Request $request)
     {
-        $sid = $request->MessageSid;
+        app()->log->info($request->all());
         $status = $request->MessageStatus;
+        if($status == 'sent') return;
+
+        $sid = $request->MessageSid;
 
         $task = Task::where('sms_id', $sid)->firstOrFail();
         $task->sms_status = $status;

@@ -40,6 +40,18 @@ class DatabaseSeeder extends Seeder
                 'sms' => null,
                 'voice' => 'Hello from Pipedrive'
             ],
+            [
+                'stage_id' => 36,
+                'name' => 'Contracts - 1st Follow Up',
+                'sms' => null,
+                'voice' => null
+            ],
+            [
+                'stage_id' => 38,
+                'name' => 'Contracts - 2nd Follow Up',
+                'sms' => null,
+                'voice' => null
+            ],
         ];
 
         foreach ($stages as $stage) {
