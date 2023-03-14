@@ -61,6 +61,7 @@ class DatatableController extends Controller
         foreach ($tasks as &$task) {
             $task->created_at2 = Carbon::parse($task->created_at)->diffForHumans();
 
+            $task->sms_id = "<a href='https://console.twilio.com/us1/monitor/logs/sms?pageSize=10&sid=$task->sms_id' target='_blank'>$task->sms_id</a>";
             $task->type = gettype($task->created_at);
             $data[] = $task;
         }
