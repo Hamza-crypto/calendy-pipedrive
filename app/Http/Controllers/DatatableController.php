@@ -22,11 +22,7 @@ class DatatableController extends Controller
 
 
         $dbColumns = [
-            0 => "id",
-            5 => "left_location",
-            6 => "date_paid",
-            7 => "invoice_amount",
-            8 => "created_at",
+            0 => "id"
         ];
 
         $orderColumnIndex = $request->input('order.0.column');
@@ -44,6 +40,7 @@ class DatatableController extends Controller
 
         } else {
             $search = $request->input('search.value');
+            $search = $this->formatPhoneNumberToE164($search);
             $tasks = Task::filters($request->all());
             $tasks = $tasks->where(function ($q1) use ($search) {
                 $q1->where('email', 'LIKE', "%$search%")
@@ -83,6 +80,25 @@ class DatatableController extends Controller
         return response()->json($data);
 
 
+    }
+
+    function formatPhoneNumberToE164($phoneNumber, $defaultCountryCode = '1')
+    {
+        // Remove all non-numeric characters from the phone number.
+        $phoneNumber = preg_replace('/[^0-9]/', '', $phoneNumber);
+
+        // If the phone number starts with a plus sign, remove it.
+        if (strpos($phoneNumber, '+') === 0) {
+            $phoneNumber = substr($phoneNumber, 1);
+        }
+
+        // If the phone number doesn't start with the default country code, add it.
+        if (strpos($phoneNumber, $defaultCountryCode) !== 0) {
+            $phoneNumber = $defaultCountryCode . $phoneNumber;
+        }
+
+        // Return the phone number in E.164 format.
+        return '+' . $phoneNumber;
     }
 
 
