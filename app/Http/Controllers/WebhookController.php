@@ -1,0 +1,59 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Stage;
+use App\Models\Task;
+use Illuminate\Http\Request;
+
+class WebhookController extends Controller
+{
+    public function index()
+    {
+        $stages = Stage::select('stage_id', 'name')->get();
+        return view('tasks.index', compact('stages'));
+    }
+    public function store(Request $request)
+    {
+        $person_id = $request->meta['id'];
+
+        $current_stage = $request->current['stage_id'];
+        $previous_stage = $request->previous['stage_id'];
+
+        if($current_stage == $previous_stage){
+            return;
+        }
+
+        $stage = Stage::where('stage_id', $current_stage)->firstOrFail();
+
+        $pipedrive = new PipedriveController();
+        $person = $pipedrive->find_person($person_id);
+
+        $task = new Task();
+        $task->email = $person['email'];
+        $task->phone = $person['phone'];
+        $task->stage = $stage->name;
+        $task->save();
+
+        if($stage->sms){
+            $twilio = new TwilioController();
+            $response = $twilio->send_sms($person['phone'], $stage->sms);
+            if($response['status'] == 'queued'){
+                $task->sms_status = 'queued';
+                $task->sms_id = $response['sid'];
+                $task->save();
+            }
+        }
+
+        if($stage->voice){
+            //send voice mail
+        }
+
+    }
+
+    public function facebook(Request $request)
+    {
+        app()->log->info($request->all());
+        return $request->hub_challenge;
+    }
+}
