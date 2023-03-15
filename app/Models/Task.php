@@ -31,6 +31,9 @@ class Task extends Model
         if (isset($filters['sms_status']) && $filters['sms_status'] != -100) {
             $query->where('sms_status', $filters['sms_status']);
         }
+        if (isset($filters['vm_status']) && $filters['vm_status'] != -100) {
+            $query->where('vm_status', $filters['vm_status']);
+        }
         if (isset($filters['daterange'])) {
             $dateRange = explode(' - ', $filters['daterange']);
             $query->whereBetween('created_at', [Carbon::parse($dateRange[0])->format('Y-m-d'), Carbon::parse($dateRange[1])->format('Y-m-d')]);

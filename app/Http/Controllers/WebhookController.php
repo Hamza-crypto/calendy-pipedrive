@@ -61,6 +61,44 @@ class WebhookController extends Controller
 
     }
 
+    public function person_created(Request $request)
+    {
+        $email = $request->current['primary_email'];
+        $phone = $request->current['phone'][0]['value'];
+
+        if(strpos($email, 'mailinator.com') == false){
+            return;
+        }
+
+        $stage = Stage::where('stage_id', 31)->firstOrFail(); //31 is the stage id for 'New Clients - First Contact'
+
+        $task = new Task();
+        $task->email = $email;
+        $task->phone = $phone;
+        $task->stage = $stage->name;
+        $task->save();
+
+        if($stage->sms){
+            $twilio = new TwilioController();
+            $response = $twilio->send_sms($phone, $stage->sms);
+            if($response['status'] == 'queued'){
+                $task->sms_status = 'queued';
+                $task->sms_id = $response['sid'];
+                $task->save();
+            }
+        }
+
+        if($stage->voice){
+            $voicemail = new VoicemailController();
+            $voicemail->send_vm($phone, $stage->voice, $task->id);
+
+            $task->vm_status = 'queued';
+            $task->save();
+        }
+
+    }
+
+
     public function facebook(Request $request)
     {
         app()->log->info($request->all());

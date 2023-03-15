@@ -28,9 +28,10 @@
 
                         data.stage = $('#stage').val();
                         data.sms_status = $('#sms_status').val();
+                        data.vm_status = $('#vm_status').val();
                         data.daterange = $('#daterange').val();
 
-                        var queryString = 'search=' + data.search.value + '&stage=' + data.stage + '&sms_status=' + data.sms_status + '&daterange=' + data.daterange;
+                        var queryString = 'search=' + data.search.value + '&stage=' + data.stage + '&sms_status=' + data.sms_status + '&vm_status=' + data.vm_status+ '&daterange=' + data.daterange;
                         var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + queryString;
                         window.history.pushState({path: newurl}, '', newurl);
 
@@ -68,6 +69,8 @@
             $('.clear-dt-filters').on('click', function () {
                 $('#stage').val('-100').trigger('change');
                 $('#sms_status').val('-100').trigger('change');
+                $('#vm_status').val('-100').trigger('change');
+
                 $('#daterange').val('');
 
                 table.search("");
@@ -115,8 +118,24 @@
                                             data-toggle="select2">
                                         <option value="-100"> Select Status</option>
                                         <option value="queued"> Queued</option>
-                                        <option value="sent"> Sent</option>
                                         <option value="delivered"> Delivered</option>
+                                        <option value="undelivered"> Un Delivered</option>
+
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-sm">
+                                <div class="form-group">
+                                    <label class="form-label" for="sms_status"> Voicemail Status </label>
+                                    <select name="vm_status" id="vm_status"
+                                            class="form-control form-select custom-select select2"
+                                            data-toggle="select2">
+                                        <option value="-100"> Select Status</option>
+                                        <option value="success"> Success</option>
+                                        <option value="queued"> Queued</option>
+                                        <option value="failure"> Failed</option>
+
 
                                     </select>
                                 </div>

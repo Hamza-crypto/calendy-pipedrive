@@ -31,7 +31,8 @@ Route::get('/test2', function () {
 
 Route::controller(WebhookController::class)->group(function () {
     Route::get('tasks', 'index');
-    Route::post('pipedrive/webhook', 'store');
+    Route::post('pipedrive/webhook', 'store'); //deal updated
+    Route::post('pipedrive/webhook/person', 'person_created'); //person created
 
     //Facebook Webhook
     Route::get('facebook/webhook', 'facebook');

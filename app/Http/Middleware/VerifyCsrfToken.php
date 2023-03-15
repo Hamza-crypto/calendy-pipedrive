@@ -13,6 +13,7 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         'pipedrive/webhook',
+        'pipedrive/webhook/person',
         'sms_status',
         'facebook/webhook',
         'vm_status'

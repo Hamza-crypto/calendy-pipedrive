@@ -40,13 +40,14 @@ class DatatableController extends Controller
 
         } else {
             $search = $request->input('search.value');
-            $search = $this->formatPhoneNumberToE164($search);
             $tasks = Task::filters($request->all());
-            $tasks = $tasks->where(function ($q1) use ($search) {
-                $q1->where('email', 'LIKE', "%$search%")
-                    ->orWhere('phone', 'LIKE', "%$search%");
 
-            })->get();
+            if (strpos($search, '@') !== false) {
+                $tasks = $tasks->where('email', 'LIKE', "%$search%")->get();
+            } else {
+                $search = $this->formatPhoneNumberToE164($search);
+                $tasks = $tasks->where('phone', 'LIKE', "%$search%")->get();
+            }
 
             $totalFiltered = count($tasks);
             $tasks = $tasks->skip($start)->take($limit);
