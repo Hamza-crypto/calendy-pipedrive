@@ -66,9 +66,9 @@ class WebhookController extends Controller
         $email = $request->current['primary_email'];
         $phone = $request->current['phone'][0]['value'];
 
-        if(strpos($email, 'mailinator.com') == false){
-            return;
-        }
+//        if(strpos($email, 'mailinator.com') == false){
+//            return;
+//        }
 
         $stage = Stage::where('stage_id', 31)->firstOrFail(); //31 is the stage id for 'New Clients - First Contact'
 
