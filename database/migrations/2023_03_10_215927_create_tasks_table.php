@@ -14,6 +14,7 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('stage')->nullable();
             $table->string('sms_status')->nullable();
+            $table->string('sms_reason')->nullable();
             $table->string('sms_id')->nullable();
             $table->string('vm_status')->nullable();
             $table->string('vm_reason')->nullable();

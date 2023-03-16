@@ -50,6 +50,19 @@ class TwilioController extends Controller
 
         $task = Task::where('sms_id', $sid)->firstOrFail();
         $task->sms_status = $status;
+        if($request->has('ErrorCode')){
+            $error_code = $request->ErrorCode;
+            if($error_code == '30007'){
+                $sms_reason = 'SMS Filtered by Company';
+            }
+            elseif($error_code == '30003'){
+                $sms_reason = 'Unreachable destination handset';
+            }
+            elseif($error_code == '30006'){
+                $sms_reason = 'Landline or unreachable carrier';
+            }
+            $task->sms_reason = $sms_reason;
+        }
         $task->save();
 
         return response()->json([
