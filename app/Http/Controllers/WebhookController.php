@@ -66,6 +66,8 @@ class WebhookController extends Controller
         $email = $request->current['primary_email'];
         $phone = $request->current['phone'][0]['value'];
 
+        $pipedrive = new PipedriveController();
+        $phone = $pipedrive->formatPhoneNumberToE164($phone);
 //        if(strpos($email, 'mailinator.com') == false){
 //            return;
 //        }
