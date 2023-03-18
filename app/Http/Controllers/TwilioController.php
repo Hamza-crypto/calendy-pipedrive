@@ -30,11 +30,8 @@ class TwilioController extends Controller
             return ['status' => $response->status, 'sid' => $response->sid] ;
         }
         catch (Exception $e){
-
-            return response()->json([
-                'success' => false,
-                'message' => $e->getMessage()
-            ]);
+            app('log')->channel('twilio_webhook')->info($e->getMessage());
+            return ['status' => 'failed', 'sid' => null] ;
         }
 
     }

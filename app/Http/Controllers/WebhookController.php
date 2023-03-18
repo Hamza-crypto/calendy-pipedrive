@@ -87,6 +87,7 @@ class WebhookController extends Controller
                 $task->sms_status = 'queued';
                 $task->sms_id = $response['sid'];
                 $task->save();
+                echo 'sms sent';
             }
         }
 
@@ -96,6 +97,7 @@ class WebhookController extends Controller
 
             $task->vm_status = 'queued';
             $task->save();
+            echo 'VM sent';
         }
 
     }
