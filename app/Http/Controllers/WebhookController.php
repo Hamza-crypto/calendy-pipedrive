@@ -41,16 +41,6 @@ class WebhookController extends Controller
         $task->stage = $stage->name;
         $task->save();
 
-        if($stage->sms){
-            $twilio = new TwilioController();
-            $response = $twilio->send_sms($person['phone'], $stage->sms);
-            if($response['status'] == 'queued'){
-                $task->sms_status = 'queued';
-                $task->sms_id = $response['sid'];
-                $task->save();
-            }
-        }
-
         if($stage->voice){
             $voicemail = new VoicemailController();
             $voicemail->send_vm($person['phone'], $stage->voice, $task->id);
@@ -58,6 +48,22 @@ class WebhookController extends Controller
             $task->vm_status = 'queued';
             $task->save();
         }
+
+        $allowed_pipes = [29, 30, 31];
+
+        if(in_array($current_stage, $allowed_pipes)){
+            if($stage->sms){
+                $twilio = new TwilioController();
+                $response = $twilio->send_sms($person['phone'], $stage->sms);
+                if($response['status'] == 'queued'){
+                    $task->sms_status = 'queued';
+                    $task->sms_id = $response['sid'];
+                    $task->save();
+                }
+            }
+        }
+
+
 
     }
 
