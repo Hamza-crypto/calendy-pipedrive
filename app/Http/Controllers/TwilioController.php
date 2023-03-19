@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Twilio\Exceptions\ConfigurationException;
 use Twilio\Exceptions\TwilioException;
 use Twilio\Rest\Client;
+use Spatie\SlackAlerts\Facades\SlackAlert;
 
 class TwilioController extends Controller
 {
@@ -31,6 +32,7 @@ class TwilioController extends Controller
         }
         catch (Exception $e){
             app('log')->channel('twilio_webhook')->info($e->getMessage());
+            SlackAlert::message($e->getMessage());
             return ['status' => 'failed', 'sid' => null] ;
         }
 

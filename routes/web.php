@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\DatatableController;
-use App\Http\Controllers\MeetingController;
 use App\Http\Controllers\TwilioController;
 use App\Http\Controllers\VoicemailController;
 use App\Http\Controllers\WebhookController;
@@ -26,7 +25,7 @@ Route::get('/', function () {
 });
 
 Route::get('/test2', function () {
-
+        SlackAlert::message('Hello world!');
 });
 
 Route::controller(WebhookController::class)->group(function () {
