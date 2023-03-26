@@ -14,8 +14,13 @@ class WebhookController extends Controller
         return view('tasks.index', compact('stages'));
     }
 
+    //Deal Updated
     public function store(Request $request)
     {
+        $owner = $request->current['owner_name'];
+        if($owner != 'Derek Jones'){
+            return;
+        }
         $person_id = $request->current['person_id'];
 
         $current_stage = $request->current['stage_id'];
